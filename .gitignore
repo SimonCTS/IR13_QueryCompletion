@@ -1,6 +1,14 @@
 *.class
 
+
+QueryCompletionPlugin/*
+IR13_QueryCompletionPlugIn/webapp/*
+IR13_QueryCompletionPlugIn/solr/*
+
+solr-4.2.0/*
+apache-solr-3.6.2/*
+
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
