@@ -60,3 +60,17 @@ How does this thing work
 What we have done, except for the coding of classes and including the jar in the right place was modifying the schema.xml file. We have added a field type which is "text_reversed" using our new plugin implementation. 
 
 
+Autocompletion in solr
+======================
+For now a functionnality has been activated in solr. Here is a description of how it works
+
+Data structure
+--------------
+In order to test this functionnality, documents must be added to data set.
+Those documents must contains at least a field named "name". The auto-completion (= search of words regarding a given prefix) will use the field "name".
+
+Example of usage
+-----------------
+*Had some documents to solr's datas
+* Once data set is complete (ie. you have added every of your documents) send the following command to solr: /suggest?spellcheck.build=true
+* Send the following command to solr: /suggest?q=prefix in order to get every words starting with prefix in every fields "name" of all documents
