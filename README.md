@@ -71,6 +71,7 @@ Those documents must contains at least a field named "name". The auto-completion
 
 Example of usage
 -----------------
-*Had some documents to solr's datas
-* Once data set is complete (ie. you have added every of your documents) send the following command to solr: /suggest?spellcheck.build=true
-* Send the following command to solr: /suggest?q=prefix in order to get every words starting with prefix in every fields "name" of all documents
+
+* Had some documents to solr's datas
+* Once data set is complete (ie. you have added every of your documents) send the following command to solr: __/suggest?spellcheck.build=true__
+* Send the following command to solr: __/suggest?q=prefix__ in order to get every words starting with prefix in every fields "name" of all documents
