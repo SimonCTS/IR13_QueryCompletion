@@ -41,6 +41,26 @@ It is quite straight forward, just remember that the project called "testsolr" i
 
 One important thing thought, you may notice that folder webapp and solr are already here in the git repository. Basically what you have to do is to fill the webapp/WEB-INF/lib folder with required library and configure jetty in the right way.
 
+Important add to the webapp/WEB-INF/lib directory
+--------------------------------------------------
+
+In order to make our plugin work, we must had a few extra jar.
+Download the httpClient 4.2.3 from the following link:
+
+* http://hc.apache.org/downloads.cgi
+
+un-compress this thing, and put the following jars:
+
+* httpclient-4.1.3.jar
+* httpclient-cache-4.1.3.jar
+* httpcore-4.1.4.jar
+* httpmime-4.1.3.jar
+
+in the webapp/WEB-INF/lib directory (as you did before)
+Everything should work fine.
+
+(Versions ids are different: don't worry it is fine)
+
 The little plug-in
 ------------------
 
@@ -75,3 +95,4 @@ Example of usage
 * Had some documents to solr's datas
 * Once data set is complete (ie. you have added every of your documents) send the following command to solr: __/suggest?spellcheck.build=true__
 * Send the following command to solr: __/suggest?q=prefix__ in order to get every words starting with prefix in every fields "name" of all documents
+

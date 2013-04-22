@@ -27,5 +27,9 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/slf4j-jdk14-1.6.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/wstx-asl-3.2.7.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpclient-4.2.4.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpclient-cache-4.2.4.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpmime-4.2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

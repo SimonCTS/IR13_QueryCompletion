@@ -4,6 +4,7 @@
 QueryCompletionPlugin/*
 IR13_QueryCompletionPlugIn/webapp/*
 IR13_QueryCompletionPlugIn/solr/*
+IR13_QueryCompletionPlugIn/solr/data/index/*
 
 solr-4.2.0/*
 apache-solr-3.6.2/*
