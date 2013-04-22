@@ -96,3 +96,11 @@ Example of usage
 * Once data set is complete (ie. you have added every of your documents) send the following command to solr: __/suggest?spellcheck.build=true__
 * Send the following command to solr: __/suggest?q=prefix__ in order to get every words starting with prefix in every fields "name" of all documents
 
+Our plugin
+==========
+I have created a similar request handler as the one I described in the previous section.
+
+Usage
+-----
+__/autocomplete?q=raw-string-from-interface__
+The goal of this handler is to parse the query in order to do the right queries in solr.
