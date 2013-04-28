@@ -74,6 +74,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		res.add("data3", true);
 		res.add("response", response);
 	}
+	
 	@Override
 	public void handleRequestBody(SolrQueryRequest req, SolrQueryResponse res)
 			throws Exception {
