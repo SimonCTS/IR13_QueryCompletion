@@ -10,7 +10,10 @@ public class AcRequest {
 		this.content = content;
 	}
 	
-
+	public boolean hasContent() {
+		return content != null;
+	}
+	
 	public String getField() {
 		return field;
 	}
