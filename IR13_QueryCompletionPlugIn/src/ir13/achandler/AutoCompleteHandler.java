@@ -32,6 +32,8 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	 * Parsing of the incoming query. Must identify the kind of stuff we are
 	 * looking for
 	 * 
+	 * TODO: Decide on rules for deciding action. Multiple attributes possible!
+	 * 
 	 * @param q
 	 * @return an AcRequest structure
 	 */
