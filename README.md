@@ -3,6 +3,7 @@ R13_QueryCompletion
 
 Info retrieval query completion project
 
+
 Install solr:
 =============
 
