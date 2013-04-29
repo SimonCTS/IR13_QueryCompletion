@@ -11,12 +11,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.request.LukeRequest;
 import org.apache.solr.client.solrj.response.LukeResponse;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.SolrParams;
-import org.apache.solr.common.util.NamedList;
 import org.apache.solr.handler.RequestHandlerBase;
 import org.apache.solr.request.SolrQueryRequest;
 import org.apache.solr.response.SolrQueryResponse;
@@ -24,8 +20,6 @@ import org.apache.solr.response.SolrQueryResponse;
 public class AutoCompleteHandler extends RequestHandlerBase {
 	private static final String SERVER_ADDRESS = "http://localhost:8983/solr";
 	private SolrServer server;
-
-
 
 	/**
 	 * Parsing of the incoming query. Must identify the kind of stuff we are
@@ -63,62 +57,60 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	 *            auto-completion request
 	 * @return the response
 	 * @throws SolrServerException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private AcResult executeSearchPrefix(AcRequest request)
 			throws SolrServerException, IOException {
 		SolrQuery queryAc = new SolrQuery();
 		queryAc.setQueryType("/suggest");
 		queryAc.set("q", request.getContent());
-		
-		
+
 		boolean isFieldReq = true;
 		AcResult result;
-		if(isFieldReq){/*TODO: replace with method in AcRequest*/
+		if (isFieldReq) {/* TODO: replace with method in AcRequest */
 			result = doFieldSearch(request.getField());
-		}else{
-			result = doContentSearch(request.getField(),request.getContent());
+		} else {
+			result = doContentSearch(request.getField(), request.getContent());
 		}
-		
-		
+
 		return result;
 	}
 
-	private AcResult doFieldSearch(String field) throws SolrServerException, IOException {
+	private AcResult doFieldSearch(String field) throws SolrServerException,
+			IOException {
 		LukeRequest queryLuke = new LukeRequest();
 		LukeResponse lukeResponse = new LukeResponse();
 		AcResult toReturn = null;
 		Map<String, LukeResponse.FieldInfo> fields = null;
 		ArrayList<String> matchingField = new ArrayList<>();
-		
 
+		
 		queryLuke.setShowSchema(true);
 		queryLuke.setNumTerms(0);
-		
-		//Execution and extraction of response
+
+		// Execution and extraction of response
 		lukeResponse = queryLuke.process(server);
 		fields = lukeResponse.getFieldInfo();
-		
-		
-		//long iter = doclist.getNumFound();
-		//if(!iter.hasNext()){
-			
-			//toReturn.addField("resultat", fields.get("author").getName());
-		//}else{
-	//		toReturn = iter.next();
-		//}
-		Iterator<Map.Entry<String, LukeResponse.FieldInfo>> iter = fields.entrySet().iterator();
+
+		// Selection of fields starting with the prefix <field>
+		Iterator<Map.Entry<String, LukeResponse.FieldInfo>> iter = fields
+				.entrySet().iterator();
 		while (iter.hasNext()) {
 			Map.Entry<String, LukeResponse.FieldInfo> entry = iter.next();
-			
-			
+			String name = entry.getValue().getName();
+			if (name.startsWith(field)) {
+				matchingField.add(name);
+			}
 		}
-		
-		
+
+		if (!matchingField.isEmpty()) {
+			toReturn = new AcResult(true, matchingField.get(0));
+		} else {
+			toReturn = new AcResult(false, false);
+		}
+
 		return toReturn;
 	}
-
-
 
 	private AcResult doContentSearch(String field, String content) {
 		// TODO Auto-generated method stub
@@ -126,18 +118,18 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	}
 
 	/**
-	 * Prepare the response returned by our handler. Takes the previous query's response
-	 * into account.
+	 * Prepare the response returned by our handler. Takes the previous query's
+	 * response into account.
+	 * 
 	 * @param res
 	 * @param response
 	 */
 	private void formatResponse(SolrQueryResponse res, AcResult response) {
-		res.add("toto", "hello");
-		res.add("data2", 42);
-		res.add("data3", true);
-		res.add("response", response);
+
+		res.add("field", response.getResultField());
+		res.add("content", response.getResultContent());
 	}
-	
+
 	@Override
 	public void handleRequestBody(SolrQueryRequest req, SolrQueryResponse res)
 			throws Exception {
@@ -176,11 +168,10 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		 */
 		formatResponse(res, response);
 
-
 	}
 
-	/*====== Methods we don't use (for now ?) ======*/
-	
+	/* ====== Methods we don't use (for now ?) ====== */
+
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
@@ -204,5 +195,5 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

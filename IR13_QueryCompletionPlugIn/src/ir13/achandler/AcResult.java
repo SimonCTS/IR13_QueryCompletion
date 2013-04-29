@@ -5,8 +5,8 @@ public class AcResult {
 	private boolean field;
 	private boolean content;
 	
-	private String resultField;
-	private String resultContent;
+	private String resultField = null;
+	private String resultContent = null;
 	
 	public boolean isField() {
 		return field;
@@ -43,7 +43,17 @@ public class AcResult {
 		this.resultField = resultField;
 		this.resultContent = resultContent;
 	}
-	
+	public AcResult(boolean content, boolean field){
+		this.content = content;
+		this.field = field;
+	}
+	/**
+	 * The result is empty ie: there is no such thing referenced
+	 * @return
+	 */
+	public boolean isEmpty(){
+		return !(content || field);
+	}
 	
 
 }
