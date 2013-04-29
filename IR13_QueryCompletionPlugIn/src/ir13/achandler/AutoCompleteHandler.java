@@ -11,6 +11,9 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.request.LukeRequest;
 import org.apache.solr.client.solrj.response.LukeResponse;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.SolrParams;
 import org.apache.solr.handler.RequestHandlerBase;
@@ -112,9 +115,34 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		return toReturn;
 	}
 
-	private AcResult doContentSearch(String field, String content) {
-		// TODO Auto-generated method stub
-		return null;
+	private AcResult doContentSearch(String field, String content) throws SolrServerException {
+		SolrQuery query = new SolrQuery();
+		QueryResponse response = null;
+		SolrDocumentList docs = null;
+		ArrayList<String> contentResults = new ArrayList<>();
+		AcResult toReturn = null;
+		
+		/* build the query*/
+		query.setQueryType("/select");
+		query.set("q", field+":"+content+"*");
+		query.set("fl", field);
+
+		/*execute the query*/
+		response = server.query(query);
+		
+		/*extraction of results*/
+		docs = response.getResults();
+		for(SolrDocument doc : docs){
+			contentResults.add(doc.getFieldValue(field).toString());
+		}
+		
+		if(contentResults.isEmpty()){
+			toReturn = new AcResult(false, false);
+		}else{
+			toReturn = new AcResult(true, field, contentResults.get(0));
+		}
+		
+		return toReturn;
 	}
 
 	/**
