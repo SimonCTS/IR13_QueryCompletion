@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -25,8 +28,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	private static final String SERVER_ADDRESS = "http://localhost:8983/solr";
 	private SolrServer server;
 
-
-
+	
 	/**
 	 * Parsing of the incoming query. Must identify the kind of stuff we are
 	 * looking for
@@ -35,7 +37,31 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	 * @return an AcRequest structure
 	 */
 	private AcRequest parseQuery(String q) {
-		return new AcRequest("field", q);
+		
+	Pattern pattern1 = Pattern.compile("(\\w++):\\((\\w*+) ?$");
+	Pattern pattern2 = Pattern.compile(" $");
+
+		//This is a field request?
+		System.out.println(q);
+		Matcher matcher = pattern1.matcher(q);
+		if(matcher.find()) {
+			System.out.println("hejhopp i lingonskogen");
+			System.out.println(matcher.groupCount());
+			System.out.println(matcher.group(1));System.out.println(matcher.group(2));
+			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2));
+		}
+		
+		String[] words = q.split(" ");
+		ArrayUtils.reverse(words);
+		
+		//This is a syntax request?
+		matcher = pattern2.matcher(q);
+		if(matcher.find()) {
+			return new AcRequest(AcRequest.SYNTAX, words[0]);
+		}
+		
+		//OK then it's regular
+		return new AcRequest(AcRequest.REGULAR, words[0]);
 	}
 
 	/**
@@ -89,7 +115,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		LukeResponse lukeResponse = new LukeResponse();
 		AcResult toReturn = null;
 		Map<String, LukeResponse.FieldInfo> fields = null;
-		ArrayList<String> matchingField = new ArrayList<>();
+		ArrayList<String> matchingField = new ArrayList<String>();
 		
 
 		queryLuke.setShowSchema(true);
@@ -152,6 +178,12 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		 */
 
 		AcRequest result = parseQuery(q);
+		//Hobbe debug:
+		System.out.println("field: " + result.getField());
+		System.out.println("content " + result.getContent());
+		System.out.println((int)result.requestType());
+		System.out.println();
+		
 		// use solrj to do some queries over solr
 
 		/*
