@@ -81,7 +81,6 @@ public class AcResult {
 		this.setContentList(contentList);
 		this.root = root;
 		fusionResult();
-		
 	}
 	/**
 	 * Fusion the field name and the full content in the result of the query
@@ -126,6 +125,11 @@ public class AcResult {
 	}
 	public void setFieldsList(ArrayList<String> fieldsList) {
 		this.fieldsList = fieldsList;
+	}
+	
+	public void addSyntaxToContentList(String root, String field, String word){
+		contentList.add(root+" "+field+":("+word+" AND");
+		contentList.add(root+" "+field+":("+word+" OR");
 	}
 	
 
