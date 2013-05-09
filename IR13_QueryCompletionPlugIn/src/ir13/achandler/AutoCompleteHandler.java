@@ -41,7 +41,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		
 	Pattern pattern1 = Pattern.compile("(\\w++):\\((\\w*+) ?$");
 	Pattern pattern2 = Pattern.compile(" $");
-
+		if(q == null || q.isEmpty())
+			return new AcRequest();		// Request is empty!
+		
 		//This is a field request?
 		System.out.println(q);
 		Matcher matcher = pattern1.matcher(q);
@@ -49,20 +51,22 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 			System.out.println("hejhopp i lingonskogen");
 			System.out.println(matcher.groupCount());
 			System.out.println(matcher.group(1));System.out.println(matcher.group(2));
-			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2));
+			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2), q.substring(0, (matcher.group(1).length() + matcher.group(2).length())));
 		}
 		
 		String[] words = q.split(" ");
+		if(ArrayUtils.isEmpty(words))
+			return new AcRequest();		// question is empty!
 		ArrayUtils.reverse(words);
 		
 		//This is a syntax request?
 		matcher = pattern2.matcher(q);
 		if(matcher.find()) {
-			return new AcRequest(AcRequest.SYNTAX, words[0]);
+			return new AcRequest(AcRequest.SYNTAX, words[0], q.substring(0,words[0].length()));
 		}
 		
 		//OK then it's regular
-		return new AcRequest(AcRequest.REGULAR, words[0]);
+		return new AcRequest(AcRequest.REGULAR, words[0], q.substring(0,words[0].length()));
 	}
 
 	/**

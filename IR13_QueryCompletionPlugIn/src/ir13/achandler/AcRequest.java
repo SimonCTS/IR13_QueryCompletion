@@ -11,18 +11,20 @@ public class AcRequest {
 	private byte reqType;
 	private String root;
 	
-	public AcRequest(byte requestType, String field, String content) {
+	public AcRequest(byte requestType, String field, String content, String rootOfQuery) {
 		super();
 		reqType = requestType;
 		this.field = field;
 		this.content = content;
+		root = rootOfQuery;
 	}
 	
-	public AcRequest(byte requestType, String field) {
+	public AcRequest(byte requestType, String field, String rootOfQuery) {
 		super();
 		reqType = requestType;
 		this.field = field;
 		this.content = null;
+		root = rootOfQuery;
 	}
 	
 	public AcRequest() {
