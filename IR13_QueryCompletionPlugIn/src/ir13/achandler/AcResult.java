@@ -37,7 +37,7 @@ public class AcResult {
 	}
 	
 	public AcResult(boolean syntax, String word, String root){
-		syntaxList = new ArrayList<>();
+		syntaxList = new ArrayList<String>();
 		this.syntax = syntax;
 		this.root = root;
 		syntaxList.add(root+" "+word+"AND");
