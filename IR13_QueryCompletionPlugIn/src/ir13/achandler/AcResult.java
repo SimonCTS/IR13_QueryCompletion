@@ -44,7 +44,7 @@ public class AcResult {
 	 */
 	private void prepareFieldsResult() {
 		Iterator<String> iter = fieldsList.iterator();
-		ArrayList<String> newFieldList = new ArrayList<>();
+		ArrayList<String> newFieldList = new ArrayList<String>();
 		while (iter.hasNext()) {
 			String string = (String) iter.next();
 			string = string+":(";
@@ -65,7 +65,7 @@ public class AcResult {
 	 */
 	private void fusionResult() {
 		Iterator<String> iter = contentList.iterator();
-		ArrayList<String> newContentList = new ArrayList<>();
+		ArrayList<String> newContentList = new ArrayList<String>();
 		while (iter.hasNext()) {
 			String string = (String) iter.next();
 			string = resultField + ":("+string+")";
