@@ -51,7 +51,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 			System.out.println("hejhopp i lingonskogen");
 			System.out.println(matcher.groupCount());
 			System.out.println(matcher.group(1));System.out.println(matcher.group(2));
-			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2), q.substring(0, q.length() - (matcher.group(1).length() + matcher.group(2).length())));
+			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2), q.substring(0, q.length() - (matcher.group(1).length() + matcher.group(2).length() +2)));
 		}
 		
 		String[] words = q.split(" ");
