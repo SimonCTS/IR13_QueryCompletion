@@ -36,13 +36,13 @@ public class AcRequest {
 	}
 	
 	public boolean isRegularRequest() {
-		return (reqType ^ REGULAR) == 0;
+		return (reqType & REGULAR) == REGULAR;
 	}
 	public boolean isFieldRequest() {
-		return (reqType ^ FIELD) == 0;
+		return (reqType & FIELD) == FIELD;
 	}
 	public boolean isSyntaxRequest() {
-		return (reqType ^ SYNTAX) == 0;
+		return (reqType & SYNTAX) == SYNTAX;
 	}
 	
 	public String getField() {
