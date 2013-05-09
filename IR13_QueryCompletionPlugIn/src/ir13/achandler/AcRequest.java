@@ -4,10 +4,12 @@ public class AcRequest {
 	public static byte REGULAR = 1;
 	public static byte FIELD = 2;
 	public static byte SYNTAX = 4;
+	public static byte EMPTY = 8;
 	
 	private String field;
 	private String content;
 	private byte reqType;
+	private String root;
 	
 	public AcRequest(byte requestType, String field, String content) {
 		super();
@@ -21,6 +23,10 @@ public class AcRequest {
 		reqType = requestType;
 		this.field = field;
 		this.content = null;
+	}
+	
+	public AcRequest() {
+		reqType = EMPTY;
 	}
 	
 	public byte requestType() {
@@ -51,7 +57,11 @@ public class AcRequest {
 	}
 	
 	public boolean isEmpty(){
-		return true;
+		return reqType == EMPTY;
+	}
+	
+	public String getRoot() {
+		return root;
 	}
 	
 }
