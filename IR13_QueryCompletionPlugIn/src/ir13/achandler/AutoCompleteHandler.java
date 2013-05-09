@@ -39,11 +39,14 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	 */
 	private AcRequest parseQuery(String q) {
 		
-	Pattern pattern1 = Pattern.compile("(\\w++):\\((\\w*+) ?$");
+	//Pattern pattern1 = Pattern.compile("(\\w++):\\((\\w*+) ?$");
+	//q.replaceAll("\\s+", " ");
+	Pattern pattern1 = Pattern.compile("(\\w+):\\(((?:\\w*)(?:(?: \\w+)|(?: $)))*$");
+		
 	Pattern pattern2 = Pattern.compile(" $");
 		if(q == null || q.isEmpty())
 			return new AcRequest();		// Request is empty!
-		
+		//author:(sigrid johans
 		//This is a field request?
 		System.out.println(q);
 		Matcher matcher = pattern1.matcher(q);
