@@ -41,7 +41,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		
 	//Pattern pattern1 = Pattern.compile("(\\w++):\\((\\w*+) ?$");
 	//q.replaceAll("\\s+", " ");
-	Pattern pattern1 = Pattern.compile("(\\w+):\\(((?:\\w*)(?:(?: \\w+)|(?: $)))*$");
+	Pattern pattern1 = Pattern.compile("(\\w+):\\(((?:\\w*)(?:(?: \\w+)|(?: $))*)$");
 		
 	Pattern pattern2 = Pattern.compile(" $");
 		if(q == null || q.isEmpty())
@@ -51,10 +51,15 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		System.out.println(q);
 		Matcher matcher = pattern1.matcher(q);
 		if(matcher.find()) {
-			System.out.println("hejhopp i lingonskogen");
-			System.out.println(matcher.groupCount());
-			System.out.println(matcher.group(1));System.out.println(matcher.group(2));
-			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2), q.substring(0, q.length() - (matcher.group(1).length() + matcher.group(2).length() +2)));
+			System.out.println("hejhopp i lingonskogen");	// DEBUG
+			System.out.println(matcher.groupCount());	// DEBUG
+			System.out.println(matcher.group(1));System.out.println(matcher.group(2));	// DEBUG
+			byte type = AcRequest.FIELD;
+			if(pattern2.matcher(q).find()) 
+				type = (byte)(type ^ AcRequest.SYNTAX);
+			if((type ^ (AcRequest.FIELD ^ AcRequest.SYNTAX)) == 0) 	// Debug
+				System.out.println("This also gets the syntax flag");	// DEBUG
+			return new AcRequest(type, matcher.group(1), matcher.group(2), q.substring(0, q.length() - (matcher.group(1).length() + matcher.group(2).length() +2)));
 		}
 		
 		String[] words = q.split(" ");
