@@ -98,12 +98,14 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		queryAc.setQueryType("/suggest");
 		queryAc.set("q", request.getContent());
 
-		boolean isFieldReq = true;
 		AcResult result;
-		if (isFieldReq) {/* TODO: replace with method in AcRequest */
+		if (request.isFieldRequest()) {
 			result = doFieldSearch(request.getField());
-		} else {
+		} else if(request.isRegularRequest()) {
 			result = doContentSearch(request.getField(), request.getContent());
+		} else {/*Syntax request*/
+			/*TODO syntax queries*/
+			result = null;
 		}
 
 		return result;

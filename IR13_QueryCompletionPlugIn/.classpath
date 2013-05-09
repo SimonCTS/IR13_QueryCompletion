@@ -31,5 +31,5 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpclient-cache-4.2.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpcore-4.2.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpmime-4.2.4.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>
