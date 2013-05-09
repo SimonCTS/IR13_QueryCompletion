@@ -7,11 +7,9 @@ $( document ).ready(function() {
       type: "GET",
       url: "suggest?spellcheck.build=true",
       beforeSend: function() {
-        console.log("building suggestions");
         $('#update-suggestions').text("Building suggestions index. Please wait..");
       },
       success: function(data) {
-        console.log("build successfull");
         $('#update-suggestions').text("Done building suggestions!");
       }
     });
@@ -20,11 +18,7 @@ $( document ).ready(function() {
   $(".search-field").keyup(function() {
     queryString = $('.search-field').val();
     prefix = $('.search-field').val().split(' ').pop();
-    //console.log("strlen: " + text.length);
     
-    //prefix = $('.search-field').val();
-  
-    console.log("Suggestion completetions for: " + prefix);
     $.ajax({
       type: "GET",
       dataType: "xml",
@@ -33,9 +27,6 @@ $( document ).ready(function() {
         $('.result-suggest').empty();
       },
       success: function(data) {
-        console.log("suggestion worked");
-        console.log( data);
-        
         $(".search-field").data("source").length = 0;
         $(data).find('str').each(function() {
           $(".search-field").data("source").push($(this).text());
@@ -53,7 +44,7 @@ $( document ).ready(function() {
     if (e.keyCode == 13) {               
       e.preventDefault();
       queryString = $("#search-field").val();
-      console.log("Searching for " + queryString);
+      $("#result-list ul").empty();
 
       $.ajax({
         type: "GET",
@@ -62,7 +53,6 @@ $( document ).ready(function() {
         success: function(data) {
           console.log(data);
           $(data).find('str[name="name"]').each(function() {
-            console.log("one data: " + $(this).text());
             $("#result-list ul").append(
               $('<li>').append(
                 $(this).text()));
