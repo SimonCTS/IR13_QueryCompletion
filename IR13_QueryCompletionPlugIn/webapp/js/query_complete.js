@@ -18,7 +18,7 @@ $( document ).ready(function() {
   });
 
   $(".search-field").keyup(function() {
-    
+    queryString = $('.search-field').val();
     prefix = $('.search-field').val().split(' ').pop();
     //console.log("strlen: " + text.length);
     
@@ -28,9 +28,9 @@ $( document ).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "xml",
-      url: "suggest?q=" + prefix,
+      url: "autocomplete?q=" + queryString,
       beforeSend: function() {
-        $('.result-list').empty();
+        $('.result-suggest').empty();
       },
       success: function(data) {
         console.log("suggestion worked");
@@ -39,16 +39,38 @@ $( document ).ready(function() {
         $(".search-field").data("source").length = 0;
         $(data).find('str').each(function() {
           $(".search-field").data("source").push($(this).text());
-          //completeList.push($(this).text());
-          $(".result-list").append("<li>" + $(this).text()+"</li>");
-          
-          //console.log($(".search-field").data("source"));
-          //console.log(completeList);
+
+          $(".result-suggest").append("<li>" + $(this).text()+"</li>");
         });
-        //$(".search-field").data("source").push(completeList.join("','"));
-        console.log("soureces:" + $(".search-field").data("source"));
+      },
+      errors: function(data) {
+        console.log("Some error");
       }
     });
+  });
+
+  $('#form-search').bind("keypress", function(e) {
+    if (e.keyCode == 13) {               
+      e.preventDefault();
+      queryString = $("#search-field").val();
+      console.log("Searching for " + queryString);
+
+      $.ajax({
+        type: "GET",
+        dataType: "xml",
+        url: "select?q=" + queryString,
+        success: function(data) {
+          console.log(data);
+          $(data).find('str[name="name"]').each(function() {
+            console.log("one data: " + $(this).text());
+            $("#result-list ul").append(
+              $('<li>').append(
+                $(this).text()));
+          })
+        }
+      });
+      return false;
+    }
   });
 
   $(".search-field-old").keyup(function() {
