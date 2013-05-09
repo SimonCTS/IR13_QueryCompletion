@@ -65,13 +65,15 @@
         </form>
       </div>
       <div class="row-fluid marketing">
-        <div class="span6 offset6 result-suggest"></div>
+        <div class="span12 result-suggest" id="result-suggest">
+          <ul class="unstyled"></ul>
+        </div>
       </div>
       <hr>
       <div class="row-fluid marketing">
         <div class="span12" id="result-list">
           <h5>Results:</h5>
-          <ul class="unstyled"> 
+          <ul class="unstyled"> </ul>
             
           </table>
         </div>

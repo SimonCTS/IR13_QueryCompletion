@@ -17,6 +17,9 @@ $( document ).ready(function() {
 
   $(".search-field").keyup(function() {
     queryString = $('.search-field').val();
+
+    queryString = queryString.replace(/ ([^ ]*)$/,'%20$1'); //a_bc
+
     prefix = $('.search-field').val().split(' ').pop();
     
     $.ajax({
@@ -24,20 +27,30 @@ $( document ).ready(function() {
       dataType: "xml",
       url: "autocomplete?q=" + queryString,
       beforeSend: function() {
-        $('.result-suggest').empty();
+        $('.result-suggest ul').empty();
       },
       success: function(data) {
         $(".search-field").data("source").length = 0;
+        typeaheadData = [];
         $(data).find('str').each(function() {
-          $(".search-field").data("source").push($(this).text());
+          text = $(this).text();
+          text = text.replace(/  /g,' '); 
+          $(".search-field").data("source").push(text);
+          typeaheadData.push(text);
+          console.log(text);
+          $("#result-suggest ul").append(
+            $('<li>').append(
+              text));
 
-          $(".result-suggest").append("<li>" + $(this).text()+"</li>");
         });
+
+        console.log($(".search-field").data("source"));
       },
       errors: function(data) {
         console.log("Some error");
       }
     });
+    
   });
 
   $('#form-search').bind("keypress", function(e) {
