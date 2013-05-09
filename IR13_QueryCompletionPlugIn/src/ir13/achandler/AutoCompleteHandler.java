@@ -154,7 +154,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		SolrQuery query = new SolrQuery();
 		QueryResponse response = null;
 		SolrDocumentList docs = null;
-		ArrayList<String> contentResults = new ArrayList<>();
+		ArrayList<String> contentResults = new ArrayList<String>();
 		AcResult toReturn = null;
 		
 		/* build the query*/

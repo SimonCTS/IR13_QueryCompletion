@@ -18,32 +18,64 @@
 --%>
 
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="solr-admin.css">
-<link rel="icon" href="favicon.ico" type="image/ico"></link>
-<link rel="shortcut icon" href="favicon.ico" type="image/ico"></link>
-<title>Welcome to Solr</title>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<body>
-<h1>Welcome to Solr!</h1>
-<a href="."><img border="0" align="right" height="78" width="142" src="admin/solr_small.png" alt="Solr"/></a>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/application.css">
+    <link rel="icon" href="favicon.ico" type="image/ico"></link>
+    <link rel="shortcut icon" href="favicon.ico" type="image/ico"></link>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/query_complete.js"></script>
 
-<% 
-  org.apache.solr.core.CoreContainer cores = (org.apache.solr.core.CoreContainer)request.getAttribute("org.apache.solr.CoreContainer");
-  Collection<SolrCore> solrCores = cores.getCores();
-  if( cores != null
-   && solrCores.size() > 0 // HACK! check that we have valid names...
-   && solrCores.iterator().next().getName().length() != 0 ) {
-    for( org.apache.solr.core.SolrCore core : cores.getCores() ) {
-       String coreName = core.getName();
-      if("".equals(coreName) ) coreName =".";
-%>
-<a href="<%= coreName %>/admin/">Admin <%= core.getName() %></a>
-<br/>
-<% }} else { %>
-<a href="admin/">Solr Admin</a>
-<% } %>
+    <title>Welcome to Solr</title>
+  </head>
+  <body>
 
-</body>
+    <div class="container-narrow">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li>
+            <a href="admin/" class="text-right">Solr Admin</a></br>
+          </li>
+          <li>
+            <a href="#" id="update-suggestions">Build suggestions</a>
+          </li>
+        </ul>
+        <h3 class="muted">Query completion</h3>
+      </div>
+      
+      <div class="jumbotron">
+        <div class="search-query"></div>
+        <form class="form-search" name="queryForm" accept-charset="UTF-8">
+          <fieldset>
+            <legend>
+              <h1>
+                Enter your query:
+              </h1>
+            </legend>
+            
+            <input type="text" id="search-field" class="typeahead input-mysize search-field" placeholder="Type something.." name="query" autocomplete="off" data-items="4" data-minLength="1" data-provide="typeahead" data-source='[]'></input>
+            
+            </input>
+          </fieldset>
+        </form>
+      </div>
+      <div class="row-fluid marketing">
+        <div class="span12 result-json"></div>
+      </div>
+      <hr>
+      <div class="row-fluid marketing">
+        <div class="span12 result-list">
+          <h5>Results:</h5>
+          <ul id="#result-list" class="unstyled"> 
+            
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
