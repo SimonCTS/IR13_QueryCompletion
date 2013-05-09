@@ -18,32 +18,46 @@
 --%>
 
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="solr-admin.css">
-<link rel="icon" href="favicon.ico" type="image/ico"></link>
-<link rel="shortcut icon" href="favicon.ico" type="image/ico"></link>
-<title>Welcome to Solr</title>
-</head>
-
-<body>
-<h1>Welcome to Solr!</h1>
-<a href="."><img border="0" align="right" height="78" width="142" src="admin/solr_small.png" alt="Solr"/></a>
-
-<% 
-  org.apache.solr.core.CoreContainer cores = (org.apache.solr.core.CoreContainer)request.getAttribute("org.apache.solr.CoreContainer");
-  Collection<SolrCore> solrCores = cores.getCores();
-  if( cores != null
-   && solrCores.size() > 0 // HACK! check that we have valid names...
-   && solrCores.iterator().next().getName().length() != 0 ) {
-    for( org.apache.solr.core.SolrCore core : cores.getCores() ) {
-       String coreName = core.getName();
-      if("".equals(coreName) ) coreName =".";
-%>
-<a href="<%= coreName %>/admin/">Admin <%= core.getName() %></a>
-<br/>
-<% }} else { %>
-<a href="admin/">Solr Admin</a>
-<% } %>
-
-</body>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/application.css">
+    <link rel="icon" href="favicon.ico" type="image/ico"></link>
+    <link rel="shortcut icon" href="favicon.ico" type="image/ico"></link>
+    <title>Welcome to Solr</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/query_complete.js"></script>
+    
+    <h1 class="text-center">Welcome to Solr!</h1>
+    
+    <a href="admin/" class="text-right">Solr Admin</a></br>
+    <a href="#" id="update-suggestions">Build suggestions</a>
+    
+    <div class="row">
+      <div class="span6 offset3">
+        <div class="search-query"></div>
+        <form class="form-search" name="queryForm" method="GET" action="select/" accept-charset="UTF-8">
+          <fieldset>
+            <legend>You could search for something</legend>
+            
+            <input type="text" id="search-field" class="typeahead input-large search-field" placeholder="Type something.." name="q" autocomplete="off" data-items="4" data-minLength="1" data-provide="typeahead" data-source='[]'></input>
+            
+            </input>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span6 offset3 result-json"></div>
+      
+    </div>
+    <div class="row">
+      <div class="span6 offset3 result">
+        <ul class="result-list">
+        </ul>
+      </div>
+    </div>
+  </body>
 </html>
