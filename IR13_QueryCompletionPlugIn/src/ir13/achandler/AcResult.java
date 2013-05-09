@@ -40,8 +40,8 @@ public class AcResult {
 		syntaxList = new ArrayList<>();
 		this.syntax = syntax;
 		this.root = root;
-		syntaxList.add(root+word+"AND");
-		syntaxList.add(root+word+"OR");
+		syntaxList.add(root+" "+word+"AND");
+		syntaxList.add(root+" "+word+"OR");
 	}
 
 	public AcResult(boolean field, ArrayList<String> resultField, String root) {
@@ -59,7 +59,7 @@ public class AcResult {
 		ArrayList<String> newFieldList = new ArrayList<String>();
 		while (iter.hasNext()) {
 			String string = (String) iter.next();
-			string = root+string+":(";
+			string = root+" "+string+":(";
 			newFieldList.add(string);
 		}
 		fieldsList = newFieldList;
@@ -82,7 +82,7 @@ public class AcResult {
 		ArrayList<String> newContentList = new ArrayList<String>();
 		while (iter.hasNext()) {
 			String string = (String) iter.next();
-			string = root + resultField + ":("+string+")";
+			string = root +" "+ resultField + ":("+string+")";
 			newContentList.add(string);
 		}
 		contentList = newContentList;
