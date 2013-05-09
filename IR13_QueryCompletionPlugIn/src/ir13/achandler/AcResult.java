@@ -43,8 +43,8 @@ public class AcResult {
 		syntaxList = new ArrayList<String>();
 		this.syntax = syntax;
 		this.root = root;
-		syntaxList.add(root+" "+word+" AND");
-		syntaxList.add(root+" "+word+" OR");
+		syntaxList.add(root+word+" AND");
+		syntaxList.add(root+word+" OR");
 	}
 
 	public AcResult(boolean field, ArrayList<String> resultField, String root) {
@@ -68,7 +68,7 @@ public class AcResult {
 		ArrayList<String> newFieldList = new ArrayList<String>();
 		while (iter.hasNext()) {
 			String string = (String) iter.next();
-			string = root+" "+string+":(";
+			string = root+string+":(";
 			newFieldList.add(string);
 		}
 		fieldsList = newFieldList;
@@ -81,7 +81,6 @@ public class AcResult {
 		this.setContentList(contentList);
 		this.root = root;
 		fusionResult();
-		
 	}
 	/**
 	 * Fusion the field name and the full content in the result of the query
@@ -91,7 +90,7 @@ public class AcResult {
 		ArrayList<String> newContentList = new ArrayList<String>();
 		while (iter.hasNext()) {
 			String string = (String) iter.next();
-			string = root +" "+ resultField + ":("+string+")";
+			string = root + resultField + ":("+string+")";
 			newContentList.add(string);
 		}
 		contentList = newContentList;
@@ -126,6 +125,14 @@ public class AcResult {
 	}
 	public void setFieldsList(ArrayList<String> fieldsList) {
 		this.fieldsList = fieldsList;
+	}
+	
+	public void addSyntaxToContentList(AcRequest request){
+		String root = request.getRoot();
+		String field = request.getField();
+		String word = request.getContent();
+		contentList.add(root+field+":("+word+" AND");
+		contentList.add(root+field+":("+word+" OR");
 	}
 	
 
