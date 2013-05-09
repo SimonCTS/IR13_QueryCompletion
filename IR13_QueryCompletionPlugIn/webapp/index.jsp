@@ -50,7 +50,7 @@
       
       <div class="jumbotron">
         <div class="search-query"></div>
-        <form class="form-search" name="queryForm" accept-charset="UTF-8">
+        <form class="form-search" id="form-search" name="queryForm" accept-charset="UTF-8">
           <fieldset>
             <legend>
               <h1>
@@ -65,13 +65,13 @@
         </form>
       </div>
       <div class="row-fluid marketing">
-        <div class="span12 result-json"></div>
+        <div class="span6 offset6 result-suggest"></div>
       </div>
       <hr>
       <div class="row-fluid marketing">
-        <div class="span12 result-list">
+        <div class="span12" id="result-list">
           <h5>Results:</h5>
-          <ul id="#result-list" class="unstyled"> 
+          <ul class="unstyled"> 
             
           </table>
         </div>
