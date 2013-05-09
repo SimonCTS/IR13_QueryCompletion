@@ -62,7 +62,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		//This is a syntax request?
 		matcher = pattern2.matcher(q);
 		if(matcher.find()) {
-			return new AcRequest(AcRequest.SYNTAX, words[0], q.substring(0,q.length() - (words[0].length())));
+			return new AcRequest(AcRequest.SYNTAX, words[0], q.substring(0,q.length() - (words[0].length() +1)));
 		}
 		
 		//OK then it's regular
