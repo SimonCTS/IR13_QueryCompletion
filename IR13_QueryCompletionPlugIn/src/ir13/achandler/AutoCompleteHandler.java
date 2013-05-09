@@ -117,16 +117,15 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 
 		AcResult result;
 		if (request.isRegularRequest()) {
-			result = doFieldSearch(request.getField(), request.getRoot());
+			result = doFieldSearch(request);
 		} else if (request.isFieldRequest()) {
-			result = doContentSearch(request.getField(), request.getContent(),
-					request.getRoot());
+			result = doContentSearch(request);
 			if (request.isSyntaxRequest()) {
 				result.addSyntaxToContentList(request.getRoot(),
 						request.getField(), request.getContent());
 			}
 		} else if (request.isSyntaxRequest()) {
-			result = doSyntaxQuery(request.getRoot(), request.getField());
+			result = doSyntaxQuery(request);
 		} else {/* empty */
 			result = handleEmpty();
 		}
@@ -138,16 +137,20 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		return new AcResult(false, false, false);
 	}
 
-	private AcResult doSyntaxQuery(String root, String word) {
+	private AcResult doSyntaxQuery(AcRequest request) {
+		String word = request.getField();
+		String root = request.getRoot();
 		return new AcResult(true, word, root);
 	}
 
-	private AcResult doFieldSearch(String field, String root)
+	private AcResult doFieldSearch(AcRequest request)
 			throws SolrServerException, IOException {
 		LukeRequest queryLuke = new LukeRequest();
 		LukeResponse lukeResponse = new LukeResponse();
 		AcResult toReturn = null;
 		Map<String, LukeResponse.FieldInfo> fields = null;
+		String field = request.getField();
+		String root = request.getRoot();
 
 		ArrayList<String> matchingField = new ArrayList<String>();
 
@@ -178,17 +181,27 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		return toReturn;
 	}
 
-	private AcResult doContentSearch(String field, String content, String root)
+	private AcResult doContentSearch(AcRequest request)
 			throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 		QueryResponse response = null;
 		SolrDocumentList docs = null;
 		ArrayList<String> contentResults = new ArrayList<String>();
 		AcResult toReturn = null;
+		String field = request.getField();
+		String content = request.getContent();
+		String root = request.getRoot();
 
+		
 		/* build the query */
 		query.setQueryType("/select");
-		query.set("q", field + ":" + content + "*");
+		
+		if(request.isSyntaxRequest()){
+			query.set("q", field+":"+content);
+		}else{
+			query.set("q", field + ":" + content + "*");
+		}
+		
 		query.set("fl", field);
 
 		/* execute the query */
