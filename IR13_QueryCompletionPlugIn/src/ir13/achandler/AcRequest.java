@@ -50,4 +50,8 @@ public class AcRequest {
 		this.content = content;
 	}
 	
+	public boolean isEmpty(){
+		return true;
+	}
+	
 }

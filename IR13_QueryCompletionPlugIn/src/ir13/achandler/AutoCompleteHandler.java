@@ -99,9 +99,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		queryAc.set("q", request.getContent());
 
 		AcResult result;
-		if (request.isFieldRequest()) {
+		if (request.isRegularRequest()) {
 			result = doFieldSearch(request.getField());
-		} else if(request.isRegularRequest()) {
+		} else if(request.isFieldRequest()) {
 			result = doContentSearch(request.getField(), request.getContent());
 		} else {/*Syntax request*/
 			/*TODO syntax queries*/
@@ -117,6 +117,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		LukeResponse lukeResponse = new LukeResponse();
 		AcResult toReturn = null;
 		Map<String, LukeResponse.FieldInfo> fields = null;
+		
 
 		ArrayList<String> matchingField = new ArrayList<String>();
 		
@@ -141,7 +142,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		}
 
 		if (!matchingField.isEmpty()) {
-			toReturn = new AcResult(true, matchingField.get(0));
+			toReturn = new AcResult(true, matchingField);
 		} else {
 			toReturn = new AcResult(false, false);
 		}
@@ -166,6 +167,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		
 		/*extraction of results*/
 		docs = response.getResults();
+		
 		for(SolrDocument doc : docs){
 			contentResults.add(doc.getFieldValue(field).toString());
 		}
@@ -173,7 +175,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		if(contentResults.isEmpty()){
 			toReturn = new AcResult(false, false);
 		}else{
-			toReturn = new AcResult(true, field, contentResults.get(0));
+			toReturn = new AcResult(true, field, contentResults);
 		}
 		
 		return toReturn;
@@ -188,8 +190,15 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 	 */
 	private void formatResponse(SolrQueryResponse res, AcResult response) {
 
-		res.add("field", response.getResultField());
-		res.add("content", response.getResultContent());
+		
+		if(response.isContent()){
+			res.add("result", response.getContentList());
+		}else if(response.isField()){
+			res.add("result", response.getFieldsList());
+		}else{
+			System.err.println("error of boolean");
+		}
+
 	}
 
 	@Override
