@@ -51,7 +51,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 			System.out.println("hejhopp i lingonskogen");
 			System.out.println(matcher.groupCount());
 			System.out.println(matcher.group(1));System.out.println(matcher.group(2));
-			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2), q.substring(0, (matcher.group(1).length() + matcher.group(2).length())));
+			return new AcRequest(AcRequest.FIELD, matcher.group(1), matcher.group(2), q.substring(0, q.length() - (matcher.group(1).length() + matcher.group(2).length())));
 		}
 		
 		String[] words = q.split(" ");
@@ -66,7 +66,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		}
 		
 		//OK then it's regular
-		return new AcRequest(AcRequest.REGULAR, words[0], q.substring(0,words[0].length()));
+		System.out.println("word_length: " + words[0].length());
+		System.out.println("gives me: " +  q.substring(0,(q.length() - words[0].length())));
+		return new AcRequest(AcRequest.REGULAR, words[0], q.substring(0,(q.length() - words[0].length())));
 	}
 
 	/**
