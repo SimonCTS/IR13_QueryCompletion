@@ -41,9 +41,6 @@
           <li>
             <a href="admin/" class="text-right">Solr Admin</a></br>
           </li>
-          <li>
-            <a href="#" id="update-suggestions">Build suggestions</a>
-          </li>
         </ul>
         <h3 class="muted">Query completion</h3>
       </div>
