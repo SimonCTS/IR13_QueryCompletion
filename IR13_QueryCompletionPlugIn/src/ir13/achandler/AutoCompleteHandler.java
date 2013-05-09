@@ -41,7 +41,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		
 	//Pattern pattern1 = Pattern.compile("(\\w++):\\((\\w*+) ?$");
 	//q.replaceAll("\\s+", " ");
-	Pattern pattern1 = Pattern.compile("(\\w+):\\(((?:\\w*)(?:(?: \\w+)|(?: $)))*$");
+	Pattern pattern1 = Pattern.compile("(\\w+):\\(((?:\\w*)(?:(?: \\w+)|(?: $))*)$");
 		
 	Pattern pattern2 = Pattern.compile(" $");
 		if(q == null || q.isEmpty())
@@ -121,8 +121,7 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		} else if (request.isFieldRequest()) {
 			result = doContentSearch(request);
 			if (request.isSyntaxRequest()) {
-				result.addSyntaxToContentList(request.getRoot(),
-						request.getField(), request.getContent());
+				result.addSyntaxToContentList(request);
 			}
 		} else if (request.isSyntaxRequest()) {
 			result = doSyntaxQuery(request);
