@@ -210,6 +210,8 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 			res.add("result", response.getContentList());
 		}else if(response.isField()){
 			res.add("result", response.getFieldsList());
+		}else if(response.isSyntax()){
+			res.add("result", response.getSyntaxList());
 		}else{
 			System.err.println("error of boolean");
 		}

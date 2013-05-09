@@ -23,6 +23,9 @@ public class AcResult {
 	private ArrayList<String> fieldsList;
 	private ArrayList<String> syntaxList;
 	
+	public ArrayList<String> getSyntaxList() {
+		return syntaxList;
+	}
 	public boolean isField() {
 		return field;
 	}
@@ -40,8 +43,8 @@ public class AcResult {
 		syntaxList = new ArrayList<String>();
 		this.syntax = syntax;
 		this.root = root;
-		syntaxList.add(root+" "+word+"AND");
-		syntaxList.add(root+" "+word+"OR");
+		syntaxList.add(root+" "+word+" AND");
+		syntaxList.add(root+" "+word+" OR");
 	}
 
 	public AcResult(boolean field, ArrayList<String> resultField, String root) {
@@ -50,6 +53,12 @@ public class AcResult {
 		this.setFieldsList(resultField);
 		this.root = root;
 		prepareFieldsResult();
+	}
+	public boolean isSyntax() {
+		return syntax;
+	}
+	public void setSyntax(boolean syntax) {
+		this.syntax = syntax;
 	}
 	/**
 	 * Takes the fields results as string and add ":(" at the end
