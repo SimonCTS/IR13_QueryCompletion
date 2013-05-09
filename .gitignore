@@ -2,7 +2,8 @@
 
 
 QueryCompletionPlugin/
-IR13_QueryCompletionPlugIn/webapp/
+
+IR13_QueryCompletionPlugIn/webapp/WEB-INF/lib/*
 IR13_QueryCompletionPlugIn/solr/
 IR13_QueryCompletionPlugIn/solr/data/index/
 
