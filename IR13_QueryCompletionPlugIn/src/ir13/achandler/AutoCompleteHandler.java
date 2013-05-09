@@ -100,18 +100,27 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 
 		AcResult result;
 		if (request.isRegularRequest()) {
-			result = doFieldSearch(request.getField());
+			result = doFieldSearch(request.getField(), request.getRoot());
 		} else if(request.isFieldRequest()) {
-			result = doContentSearch(request.getField(), request.getContent());
-		} else {/*Syntax request*/
-			/*TODO syntax queries*/
-			result = null;
+			result = doContentSearch(request.getField(), request.getContent(), request.getRoot());
+		} else if(request.isSyntaxRequest()) {
+			result = doSyntaxQuery(request.getRoot(), request.getField());
+		}else{/*empty*/
+			result = handleEmpty();
 		}
-
 		return result;
 	}
 
-	private AcResult doFieldSearch(String field) throws SolrServerException,
+	private AcResult handleEmpty() {
+		// TODO Auto-generated method stub
+		return new AcResult(false, false, false);
+	}
+
+	private AcResult doSyntaxQuery(String root, String word) {
+		return new AcResult(true, word, root);
+	}
+
+	private AcResult doFieldSearch(String field, String root) throws SolrServerException,
 			IOException {
 		LukeRequest queryLuke = new LukeRequest();
 		LukeResponse lukeResponse = new LukeResponse();
@@ -142,15 +151,15 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		}
 
 		if (!matchingField.isEmpty()) {
-			toReturn = new AcResult(true, matchingField);
+			toReturn = new AcResult(true, matchingField, root);
 		} else {
-			toReturn = new AcResult(false, false);
+			toReturn = new AcResult(false, false, false);
 		}
 
 		return toReturn;
 	}
 
-	private AcResult doContentSearch(String field, String content) throws SolrServerException {
+	private AcResult doContentSearch(String field, String content, String root) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 		QueryResponse response = null;
 		SolrDocumentList docs = null;
@@ -173,9 +182,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		}
 		
 		if(contentResults.isEmpty()){
-			toReturn = new AcResult(false, false);
+			toReturn = new AcResult(false, false, false);
 		}else{
-			toReturn = new AcResult(true, field, contentResults);
+			toReturn = new AcResult(true, field, contentResults, root);
 		}
 		
 		return toReturn;
