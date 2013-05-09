@@ -24,7 +24,7 @@ $( document ).ready(function() {
     
     //prefix = $('.search-field').val();
   
-    console.log("SSuggestion completetions for: " + prefix);
+    console.log("Suggestion completetions for: " + prefix);
     $.ajax({
       type: "GET",
       dataType: "xml",
