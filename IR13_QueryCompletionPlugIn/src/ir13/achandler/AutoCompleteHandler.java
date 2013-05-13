@@ -122,12 +122,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		if (request.isRegularRequest()) {
 			result = doFieldSearch(request);
 		} else if (request.isFieldRequest()) {
-			//result = doContentSearch(request);
+			result = doContentSearch(request);
 			if (request.isSyntaxRequest()) {
-				result = new AcResult();
 				result.addSyntaxToContentList(request);
-			}else{
-				result = doContentSearch(request);
 			}
 		} else if (request.isSyntaxRequest()) {
 			result = doSyntaxQuery(request);
