@@ -15,13 +15,12 @@ $( document ).ready(function() {
     });
   });
 
+
   $(".search-field").keyup(function() {
     queryString = $('.search-field').val();
 
     queryString = queryString.replace(/ ([^ ]*)$/,'%20$1'); //a_bc
 
-    prefix = $('.search-field').val().split(' ').pop();
-    
     $.ajax({
       type: "GET",
       dataType: "xml",
@@ -35,13 +34,18 @@ $( document ).ready(function() {
         $(data).find('str').each(function() {
           text = $(this).text();
           text = text.replace(/  /g,' '); 
-          $(".search-field").data("source").push(text);
+          //$(".search-field").data("source").push(text);
           typeaheadData.push(text);
-          console.log(text);
+          //console.log(text);
           $("#result-suggest ul").append(
             $('<li>').append(
               text));
-
+        }).promise().done(function() {
+          console.log("each done");
+          console.log(typeaheadData);
+          $( ".search-field" ).autocomplete({
+            source: typeaheadData
+          });
         });
 
         console.log($(".search-field").data("source"));
@@ -50,7 +54,6 @@ $( document ).ready(function() {
         console.log("Some error");
       }
     });
-    
   });
 
   $('#form-search').bind("keypress", function(e) {
