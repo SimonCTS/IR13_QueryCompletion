@@ -19,9 +19,9 @@ public class AcResult {
 	private boolean syntax = false;
 	private String root;
 	private String resultField;
-	private ArrayList<String> contentList;
-	private ArrayList<String> fieldsList;
-	private ArrayList<String> syntaxList;
+	private ArrayList<String> contentList = new ArrayList<String>();
+	private ArrayList<String> fieldsList = new ArrayList<String>();
+	private ArrayList<String> syntaxList = new ArrayList<String>();
 	
 	public ArrayList<String> getSyntaxList() {
 		return syntaxList;
@@ -40,7 +40,6 @@ public class AcResult {
 	}
 	
 	public AcResult(boolean syntax, String word, String root){
-		syntaxList = new ArrayList<String>();
 		this.syntax = syntax;
 		this.root = root;
 		syntaxList.add(root+word+" AND");
