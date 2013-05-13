@@ -1,6 +1,7 @@
 package ir13.achandler;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -93,6 +94,10 @@ public class AcResult {
 			newContentList.add(string);
 		}
 		contentList = newContentList;
+		HashSet<String> hs = new HashSet<String>();
+		hs.addAll(contentList);
+		contentList.clear();
+		contentList.addAll(hs);
 	}
 	public AcResult(){
 		this.content = false;
