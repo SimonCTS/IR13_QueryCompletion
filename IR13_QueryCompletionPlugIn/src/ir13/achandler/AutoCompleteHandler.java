@@ -122,9 +122,12 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		if (request.isRegularRequest()) {
 			result = doFieldSearch(request);
 		} else if (request.isFieldRequest()) {
-			result = doContentSearch(request);
+			//result = doContentSearch(request);
 			if (request.isSyntaxRequest()) {
+				result = new AcResult();
 				result.addSyntaxToContentList(request);
+			}else{
+				result = doContentSearch(request);
 			}
 		} else if (request.isSyntaxRequest()) {
 			result = doSyntaxQuery(request);
@@ -136,13 +139,13 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 
 	private AcResult handleEmpty() {
 		// TODO Auto-generated method stub
-		return new AcResult(false, false, false);
+		return new AcResult();
 	}
 
 	private AcResult doSyntaxQuery(AcRequest request) {
 		String word = request.getField();
 		String root = request.getRoot();
-		return new AcResult(true, word, root);
+		return new AcResult(word, root);
 	}
 
 	private AcResult doFieldSearch(AcRequest request)
@@ -175,9 +178,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		}
 
 		if (!matchingField.isEmpty()) {
-			toReturn = new AcResult(true, matchingField, root);
+			toReturn = new AcResult(matchingField, root);
 		} else {
-			toReturn = new AcResult(false, false, false);
+			toReturn = new AcResult();
 		}
 
 		return toReturn;
@@ -217,9 +220,9 @@ public class AutoCompleteHandler extends RequestHandlerBase {
 		}
 
 		if (contentResults.isEmpty()) {
-			toReturn = new AcResult(false, false, false);
+			toReturn = new AcResult();
 		} else {
-			toReturn = new AcResult(true, field, contentResults, root);
+			toReturn = new AcResult(field, contentResults, root);
 		}
 
 		return toReturn;
