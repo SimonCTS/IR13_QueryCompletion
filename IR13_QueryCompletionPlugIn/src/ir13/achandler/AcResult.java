@@ -39,16 +39,16 @@ public class AcResult {
 		this.content = content;
 	}
 	
-	public AcResult(boolean syntax, String word, String root){
-		this.syntax = syntax;
+	public AcResult(String word, String root){
+		this.syntax = true;
 		this.root = root;
 		syntaxList.add(root+word+" AND");
 		syntaxList.add(root+word+" OR");
 	}
 
-	public AcResult(boolean field, ArrayList<String> resultField, String root) {
+	public AcResult(ArrayList<String> resultField, String root) {
 		super();
-		this.field = field;
+		this.field = true;
 		this.setFieldsList(resultField);
 		this.root = root;
 		prepareFieldsResult();
@@ -73,9 +73,9 @@ public class AcResult {
 		fieldsList = newFieldList;
 		
 	}
-	public AcResult(boolean content, String resultField, ArrayList<String> contentList, String root) {
+	public AcResult(String resultField, ArrayList<String> contentList, String root) {
 		super();
-		this.content = content;
+		this.content = true;
 		this.setResultField(resultField);
 		this.setContentList(contentList);
 		this.root = root;
@@ -94,10 +94,10 @@ public class AcResult {
 		}
 		contentList = newContentList;
 	}
-	public AcResult(boolean content, boolean field, boolean syntax){
-		this.content = content;
-		this.field = field;
-		this.syntax = syntax;
+	public AcResult(){
+		this.content = false;
+		this.field = false;
+		this.syntax = false;
 	}
 	/**
 	 * The result is empty ie: there is no such thing referenced
@@ -127,11 +127,13 @@ public class AcResult {
 	}
 	
 	public void addSyntaxToContentList(AcRequest request){
+		this.syntax = true;
+		this.content = true;
 		String root = request.getRoot();
 		String field = request.getField();
 		String word = request.getContent();
-		contentList.add(root+field+":("+word+" AND");
-		contentList.add(root+field+":("+word+" OR");
+		contentList.add(root+field+":("+word+"AND");
+		contentList.add(root+field+":("+word+"OR");
 	}
 	
 
