@@ -27,9 +27,12 @@
     <link rel="stylesheet" type="text/css" href="css/application.css">
     <link rel="icon" href="favicon.ico" type="image/ico"></link>
     <link rel="shortcut icon" href="favicon.ico" type="image/ico"></link>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/query_complete.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
     <title>Welcome to Solr</title>
   </head>
@@ -62,7 +65,7 @@
         </form>
       </div>
       <div class="row-fluid marketing">
-        <div class="span12 result-suggest" id="result-suggest">
+        <div class="span12 result-suggest" id="result-suggest" style="display:none;">
           <ul class="unstyled"></ul>
         </div>
       </div>
